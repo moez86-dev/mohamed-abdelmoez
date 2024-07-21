@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="image/05.png" alt="Al Rayan Watches Logo" class="logo">
+            <h1 class="store-name">Al Rayan Watches</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="index.html#products" class="nav-link">Products</a></li>
+                <li><a href="cart.html" class="nav-link"><i class="fas fa-shopping-cart"></i> Cart (<span id="cart-count">0</span>)</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="cart">
+            <h1>Your Cart</h1>
+            <div id="cart-items">
+                <!-- Cart items will be dynamically added here -->
+            </div>
+            <div id="cart-summary">
+                <h2>Cart Summary</h2>
+                <p>Total Items: <span id="total-items">0</span></p>
+                <p>Total Price: <span id="total-price">$0</span></p>
+                <button id="checkout-btn">Proceed to Checkout</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div id="map" style="width: 100%; height: 200px;"></div>
+        <div class="social-media">
+            <ul class="wrapper">
+                <li class="icon facebook">
+                    <span class="tooltip">Facebook</span>
+                    <!-- Facebook SVG -->
+                </li>
+                <li class="icon twitter">
+                    <span class="tooltip">Twitter</span>
+                    <!-- Twitter SVG -->
+                </li>
+                <li class="icon instagram">
+                    <span class="tooltip">Instagram</span>
+                    <!-- Instagram SVG -->
+                </li>
+            </ul>
+        </div>
+        <p id="store-address">Store Address: King Fahd Street, Riyadh, Saudi Arabia</p>
+        <p id="footer-rights">© 2024 Al Rayan Watches, All rights reserved</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cartContainer = document.getElementById('cart-items');
+            const totalItemsElem = document.getElementById('total-items');
+            const totalPriceElem = document.getElementById('total-price');
+
+            let cartItems = [
+                { id: 1, name: 'watch 1', price: 10 },
+                { id: 2, name: 'watch 2', price: 15 },
+                { id: 3, name: 'watch 3', price: 20 }
+            ];
+
+            // Function to render cart items
+            function renderCartItems() {
+                cartContainer.innerHTML = '';
+                let totalItems = 0;
+                let totalPrice = 0;
+
+                cartItems.forEach(item => {
+                    const itemElem = document.createElement('div');
+                    itemElem.classList.add('cart-item');
+                    itemElem.innerHTML = `
+                        <img src="image/${item.id}.jpg" alt="${item.name}">
+                        <div class="item-details">
+                            <h3>${item.name}</h3>
+                            <p>Price: $${item.price}</p>
+                            <button class="remove-item" data-id="${item.id}">Remove</button>
+                        </div>
+                    `;
+                    cartContainer.appendChild(itemElem);
+
+                    totalItems++;
+                    totalPrice += item.price;
+                });
+
+                totalItemsElem.textContent = totalItems;
+                totalPriceElem.textContent = `$${totalPrice}`;
+            }
+
+            // Initial rendering
+            renderCartItems();
+
+            // Event listener for removing items
+            cartContainer.addEventListener('click', function(event) {
+                if (event.target.classList.contains('remove-item')) {
+                    const itemId = parseInt(event.target.getAttribute('data-id'));
+                    cartItems = cartItems.filter(item => item.id !== itemId);
+                    renderCartItems();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
